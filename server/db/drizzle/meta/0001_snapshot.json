@@ -1,8 +1,8 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "b4d7252f-e260-4505-a170-3699e8a6020a",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "c78918ea-30df-4290-8d06-86650176e1f0",
+  "prevId": "b4d7252f-e260-4505-a170-3699e8a6020a",
   "tables": {
     "account": {
       "name": "account",
@@ -355,26 +355,40 @@
           "notNull": true,
           "autoincrement": false
         },
-        "username": {
-          "name": "username",
+        "name": {
+          "name": "name",
           "type": "text",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "autoincrement": false
         },
-        "password": {
-          "name": "password",
+        "email": {
+          "name": "email",
           "type": "text",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "emailVerified": {
+          "name": "emailVerified",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "image": {
+          "name": "image",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
           "autoincrement": false
         }
       },
       "indexes": {
-        "user_username_unique": {
-          "name": "user_username_unique",
+        "user_email_unique": {
+          "name": "user_email_unique",
           "columns": [
-            "username"
+            "email"
           ],
           "isUnique": true
         }
