@@ -1,6 +1,5 @@
 import { signIn, auth, signOut } from '@/server/auth';
 import { Button } from '@/app/components/ui/button';
-import { Github } from 'lucide-react';
 import Form from 'next/form';
 
 export default async function SignIn() {
@@ -34,7 +33,6 @@ export default async function SignIn() {
             type="submit"
             className="bg-white text-black border-2 border-black hover:bg-black hover:text-white transition-colors duration-300 uppercase tracking-widest text-xs py-3 px-2 flex items-center"
           >
-            <Github className="mr-2 w-4 h-4" />
             Admin Sign In
           </Button>
         </Form>
