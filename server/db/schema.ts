@@ -7,12 +7,12 @@ import {
 import type { AdapterAccountType } from 'next-auth/adapters';
 
 export const categoryTable = sqliteTable('category', {
-  id: integer('id').primaryKey({ autoIncrement: true }),
+  id: integer('id').primaryKey({ autoIncrement: true }).notNull(),
   name: text('name').notNull().unique(),
 });
 
 export const inspirationTable = sqliteTable('inspiration', {
-  id: integer('id').primaryKey({ autoIncrement: true }),
+  id: integer('id').primaryKey({ autoIncrement: true }).notNull(),
   content: text('content').notNull(),
   source: text('source'),
   created_at: integer('created_at', { mode: 'timestamp' }).notNull(),

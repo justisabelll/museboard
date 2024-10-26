@@ -10,7 +10,8 @@
     "db:generate": "bun drizzle-kit generate",
     "db:migrate": "bun drizzle-kit migrate",
     "db:studio": "bun drizzle-kit studio",
-    "db:admin": "bun server/db/add-admin.ts"
+    "db:admin": "bun server/db/add-admin.ts",
+    "db:seed": "bun server/db/seed.ts seed"
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^1.7.2",
