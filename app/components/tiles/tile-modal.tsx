@@ -10,6 +10,8 @@ import { Inspiration } from '@/server/db/schema';
 import { MediaPlayer, MediaProvider } from '@vidstack/react';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
+import { deleteItem } from '@/server/actions/delete-item';
+import { toast } from 'sonner';
 
 import '@vidstack/react/player/styles/base.css';
 import '@vidstack/react/player/styles/plyr/theme.css';
@@ -35,14 +37,25 @@ export function TileModal({
   const { data: session } = useSession();
   const categoryName = dictionary[item.category_id];
 
+  const handleDelete = async () => {
+    try {
+      await deleteItem(item.id);
+      toast.success('Inspiration deleted successfully');
+      onClose(); // Close the modal after successful deletion
+    } catch (error) {
+      console.error('Error deleting inspiration:', error);
+      toast.error('Failed to delete inspiration');
+    }
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[625px] bg-white border border-black">
-        <DialogHeader className="border-b border-black pb-4">
-          <DialogTitle className="text-2xl font-normal uppercase tracking-widest">
+      <DialogContent className="sm:max-w-[625px] bg-background border border-border">
+        <DialogHeader className="border-b border-border pb-4">
+          <DialogTitle className="text-2xl font-normal uppercase tracking-widest text-foreground">
             {categoryName}
           </DialogTitle>
-          <DialogDescription className="font-light text-sm">
+          <DialogDescription className="font-light text-sm text-muted-foreground">
             Added on {new Date(item.created_at).toLocaleDateString()}
           </DialogDescription>
         </DialogHeader>
@@ -50,11 +63,11 @@ export function TileModal({
           <RenderContent item={item} categoryName={categoryName} />
         </div>
         {item.source && (
-          <div className="mt-6 border-t border-black pt-4">
-            <h4 className="text-sm font-normal uppercase tracking-wider mb-1">
+          <div className="mt-6 border-t border-border pt-4">
+            <h4 className="text-sm font-normal uppercase tracking-wider mb-1 text-foreground">
               Source:
             </h4>
-            <span className="text-black hover:underline flex items-center font-light">
+            <span className="text-foreground hover:underline flex items-center font-light">
               {item.source}
             </span>
           </div>
@@ -62,15 +75,16 @@ export function TileModal({
         <div className="mt-8 flex justify-end space-x-4">
           {session?.user && (
             <Button
+              onClick={handleDelete}
               variant="outline"
-              className="border-black text-black hover:bg-black hover:text-white transition-colors uppercase tracking-wider"
+              className="border-border text-foreground hover:bg-accent hover:text-accent-foreground transition-colors uppercase tracking-wider"
             >
               Delete
             </Button>
           )}
           <Button
             onClick={onClose}
-            className="bg-black text-white hover:bg-white hover:text-black border border-black transition-colors uppercase tracking-wider"
+            className="bg-primary text-primary-foreground hover:bg-accent hover:text-accent-foreground border border-border transition-colors uppercase tracking-wider"
           >
             Close
           </Button>
@@ -101,7 +115,7 @@ const RenderContent = ({
       );
     case 'quote':
       return (
-        <blockquote className="text-xl font-light italic border-l-2 border-black pl-4 py-2">
+        <blockquote className="text-xl font-light italic border-l-2 border-border pl-4 py-2 text-foreground">
           &quot;{item.content}&quot;
         </blockquote>
       );
@@ -130,6 +144,8 @@ const RenderContent = ({
         </div>
       );
     default:
-      return <p className="font-light">Unsupported content type</p>;
+      return (
+        <p className="font-light text-foreground">Unsupported content type</p>
+      );
   }
 };

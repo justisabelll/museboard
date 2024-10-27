@@ -1,10 +1,15 @@
 import SignIn from '@/app/components/sign-in';
-import { TileGrid } from '@/app/components/tile-grid';
+import { TileGrid } from '@/app/components/tiles/tile-grid';
 
 import { db } from '@/server/db';
 import { categoryTable, inspirationTable } from '@/server/db/schema';
+import AddItemButton from '@/app/components/add-item-button';
+import { auth } from '@/server/auth';
+import { ModeToggle } from '@/app/components/mode-toggle';
 
 export default async function Home() {
+  const session = await auth();
+
   const items = await db.select().from(inspirationTable).all();
   const categories = await db.select().from(categoryTable).all();
   const categoryDictionary = Object.fromEntries(
@@ -12,13 +17,13 @@ export default async function Home() {
   );
 
   return (
-    <div className="flex flex-col min-h-screen bg-white text-black">
+    <div className="flex flex-col min-h-screen bg-background text-foreground">
       <header className="relative py-24 mb-16">
-        <h1 className="text-7xl font-light tracking-iwidest text-center uppercase">
+        <h1 className="text-7xl font-light tracking-widest text-center uppercase text-foreground">
           Muse<span className="font-normal">board</span>
         </h1>
         <div className="flex absolute top-8 right-8 gap-6 items-center">
-          {/* <ModeToggle /> */}
+          <ModeToggle />
           <SignIn />
         </div>
       </header>
@@ -26,10 +31,11 @@ export default async function Home() {
       <div className="container flex-grow px-8 mx-auto">
         <TileGrid items={items} dictionary={categoryDictionary} />
       </div>
-      <div className="fixed right-12 bottom-12">
-        {/* NewInspiration component would go here */}
-      </div>
-      {/* Toaster component would go here */}
+      {session ? (
+        <div className="fixed right-8 bottom-8 z-50">
+          <AddItemButton categoryDictionary={categoryDictionary} />
+        </div>
+      ) : null}
     </div>
   );
 }

@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { TileModal } from '@/app/components/tile-modal';
+import { TileModal } from '@/app/components/tiles/tile-modal';
 import { Icon } from '@iconify/react';
 import { Inspiration } from '@/server/db/schema';
 import Image from 'next/image';
@@ -22,6 +22,20 @@ const getYouTubeVideoThumbnail = (url: string) => {
 
 export function TileGrid({ items, dictionary }: TileGridProps) {
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [columns, setColumns] = useState(5);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 640) setColumns(2);
+      else if (window.innerWidth < 768) setColumns(3);
+      else if (window.innerWidth < 1024) setColumns(4);
+      else setColumns(5);
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const filteredItems = items.filter(
     (item) =>
@@ -41,10 +55,18 @@ export function TileGrid({ items, dictionary }: TileGridProps) {
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}
       />
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mb-20">
+      <div
+        className="grid gap-4 mb-20"
+        style={{ gridTemplateColumns: `repeat(${columns}, 1fr)` }}
+      >
         <AnimatePresence>
-          {filteredItems.map((item) => (
-            <Tile key={item.id} item={item} dictionary={dictionary} />
+          {filteredItems.map((item, index) => (
+            <Tile
+              key={item.id}
+              item={item}
+              dictionary={dictionary}
+              index={index}
+            />
           ))}
         </AnimatePresence>
       </div>
@@ -55,26 +77,32 @@ export function TileGrid({ items, dictionary }: TileGridProps) {
 const Tile = ({
   item,
   dictionary,
+  index,
 }: {
   item: Inspiration;
   dictionary: Record<number, string>;
+  index: number;
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <motion.div
       layout
-      initial={{ opacity: 0, scale: 0.8 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.8 }}
-      transition={{ duration: 0.3 }}
+      initial={{ opacity: 0, y: 20, rotate: -5 }}
+      animate={{ opacity: 1, y: 0, rotate: 0 }}
+      exit={{ opacity: 0, y: -20, rotate: 5 }}
+      transition={{ duration: 0.2, delay: index * 0.02 }}
+      style={{
+        zIndex: isModalOpen ? 50 : 1,
+      }}
       whileHover={{
-        scale: 1.03,
-        transition: { duration: 0.2 },
+        scale: 1.05,
+        zIndex: 10,
+        transition: { duration: 0.1 },
       }}
     >
       <div
-        className="w-full h-full overflow-hidden bg-white cursor-pointer aspect-square"
+        className="w-full overflow-hidden cursor-pointer aspect-square rounded-xl border border-border bg-background shadow-lg hover:shadow-xl transition-all duration-200"
         onClick={() => setIsModalOpen(true)}
       >
         <TileContent item={item} dictionary={dictionary} />
@@ -106,42 +134,41 @@ const TileContent = ({
           width={300}
           height={300}
           alt="Inspiration"
-          // removed this after uploadingthing
           unoptimized
-          className="object-cover w-full h-full transition-all duration-300 filter hover:filter-none"
+          className="object-cover w-full h-full transition-all duration-200 filter hover:filter-none"
         />
       );
     case 'quote':
       return (
-        <div className="flex flex-col justify-center items-center p-4 h-full text-center bg-white">
-          <p className="text-sm font-light text-black uppercase tracking-widest line-clamp-4">
-            {item.content}
+        <div className="flex flex-col justify-center items-center p-4 h-full text-center  ">
+          <p className="text-sm font-light text-foreground uppercase tracking-widest line-clamp-4 italic">
+            &quot;{item.content}&quot;
           </p>
         </div>
       );
     case 'video':
       return (
-        <div className="relative w-full h-full overflow-hidden">
+        <div className="w-full h-full overflow-hidden group">
           <Image
             src={getYouTubeVideoThumbnail(item.content)}
             alt="Video Thumbnail"
-            className="object-cover w-full h-full transition-all duration-300 filter hover:filter-none"
+            className="object-cover scale-150 w-full h-full transition-all duration-200 blur-sm group-hover:blur-none"
             width={300}
             height={300}
             unoptimized
           />
-          <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
+          <div className="absolute inset-0 flex items-center justify-center bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
             <Icon
               icon="mdi:play-circle-outline"
-              className="w-16 h-16 text-white"
+              className="w-16 h-16 text-white transform scale-75 group-hover:scale-100 transition-transform duration-200"
             />
           </div>
         </div>
       );
     default:
       return (
-        <div className="flex items-center justify-center h-full bg-gray-100">
-          <p className="text-sm text-gray-500">Unknown content type</p>
+        <div className="flex items-center justify-center h-full bg-muted">
+          <p className="text-sm text-muted-foreground">Unknown content type</p>
         </div>
       );
   }

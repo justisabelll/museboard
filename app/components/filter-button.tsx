@@ -22,8 +22,8 @@ export function FilterButtons({
         onClick={() => handleCategoryClick('all')}
         className={`p-3 transition-all duration-300 text-sm uppercase tracking-wider ${
           selectedCategory === 'all'
-            ? 'text-black border-b border-black'
-            : 'text-gray-400 hover:text-black'
+            ? 'text-foreground border-b border-foreground dark:text-foreground dark:border-foreground'
+            : 'text-muted-foreground hover:text-foreground dark:text-muted-foreground dark:hover:text-foreground'
         }`}
       >
         <span>All</span>
@@ -34,8 +34,8 @@ export function FilterButtons({
           onClick={() => handleCategoryClick(value)}
           className={`p-3 transition-all duration-300 text-sm uppercase tracking-wider ${
             selectedCategory === value
-              ? 'text-black border-b border-black'
-              : 'text-gray-400 hover:text-black'
+              ? 'text-foreground border-b border-foreground dark:text-foreground dark:border-foreground'
+              : 'text-muted-foreground hover:text-foreground dark:text-muted-foreground dark:hover:text-foreground'
           }`}
         >
           {/* Icon components would go here */}

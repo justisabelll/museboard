@@ -17,7 +17,7 @@ export default async function SignIn() {
           <Button
             variant="outline"
             size="sm"
-            className="text-black border-black hover:bg-black hover:text-white transition-colors duration-300 uppercase tracking-widest text-xs py-3 px-6"
+            className="text-foreground border-border hover:bg-accent hover:text-accent-foreground transition-colors duration-300 uppercase tracking-widest text-xs py-3 px-6"
           >
             Sign Out
           </Button>
@@ -31,7 +31,7 @@ export default async function SignIn() {
         >
           <Button
             type="submit"
-            className="bg-white text-black border-2 border-black hover:bg-black hover:text-white transition-colors duration-300 uppercase tracking-widest text-xs py-3 px-2 flex items-center"
+            className="bg-background text-foreground border-2 border-border hover:bg-accent hover:text-accent-foreground transition-colors duration-300 uppercase tracking-widest text-xs py-3 px-2 flex items-center"
           >
             Admin Sign In
           </Button>
