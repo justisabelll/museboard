@@ -19,6 +19,7 @@ export const inspirationTable = sqliteTable('inspiration', {
   category_id: integer('category_id')
     .notNull()
     .references(() => categoryTable.id),
+  image_key: text('image_key'),
 });
 
 // Auth Tables
