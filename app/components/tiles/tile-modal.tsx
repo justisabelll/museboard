@@ -116,7 +116,7 @@ const RenderContent = ({
     case 'quote':
       return (
         <blockquote className="text-xl font-light italic border-l-2 border-border pl-4 py-2 text-foreground">
-          &quot;{item.content}&quot;
+          {item.content}
         </blockquote>
       );
     case 'video':

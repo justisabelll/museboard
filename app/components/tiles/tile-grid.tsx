@@ -134,7 +134,6 @@ const TileContent = ({
           width={300}
           height={300}
           alt="Inspiration"
-          unoptimized
           className="object-cover w-full h-full transition-all duration-200 filter hover:filter-none"
         />
       );
@@ -155,7 +154,6 @@ const TileContent = ({
             className="object-cover scale-150 w-full h-full transition-all duration-200 blur-sm group-hover:blur-none"
             width={300}
             height={300}
-            unoptimized
           />
           <div className="absolute inset-0 flex items-center justify-center bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
             <Icon

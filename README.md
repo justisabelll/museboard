@@ -1,36 +1,78 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# museboard
 
-## Getting Started
+simple place for me to keep things that inspire me
 
-First, run the development server:
+## requirements
+
+- bun
+- docker (or turso account)
+- github account
+- uploadthing account
+
+## setup
+
+1. create your .env file based on the .env.example file:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
+# database (choose either local docker or turso)
+DATABASE_URL="http://127.0.0.1:8080"  # for local docker
+DATABASE_AUTH_TOKEN=""                 # only needed for turso
+
+# github auth
+AUTH_GITHUB_ID=""          # from github oauth app
+AUTH_GITHUB_SECRET=""      # from github oauth app
+ADMIN_EMAIL=""            # your github email
+
+# uploadthing
+UPLOADTHING_TOKEN=""      # from uploadthing dashboard
+
+# next auth
+AUTH_SECRET=""           # generate with: openssl rand -base64 32 or npx auth secret https://authjs.dev/reference/core/errors#missingsecret
+NEXTAUTH_URL="http://localhost:3000"
+```
+
+2. start the database (if using docker):
+
+```bash
+docker run -d -p 8080:8080 ghcr.io/libsql/sqld:latest
+```
+
+3. install dependencies:
+
+```bash
+bun install
+```
+
+4. setup database:
+
+```bash
+bun db:push  # create tables
+bun db:seed  # add sample data
+```
+
+5. run the app:
+
+```bash
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## database commands
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+bun db:push    # push schema changes
+bun db:seed    # add sample data
+bun db:studio  # open drizzle studio
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## development
 
-## Learn More
+the app uses:
 
-To learn more about Next.js, take a look at the following resources:
+- next.js 14 app router
+- drizzle orm with libsql (local docker or turso)
+- uploadthing for image uploads
+- next-auth with github provider
+- tailwind for styling
+- shadcn/ui components
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+authentication is restricted to a single github account specified by ADMIN_EMAIL in .env so if you deploy only you will be able to add new items even though the app is public
