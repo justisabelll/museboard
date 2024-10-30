@@ -50,7 +50,7 @@ export function TileModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[625px] bg-background border border-border">
+      <DialogContent className="sm:max-w-[625px] w-[95vw] max-h-[90vh] overflow-y-auto bg-background border-border m-4">
         <DialogHeader className="border-b border-border pb-4">
           <DialogTitle className="text-2xl font-normal uppercase tracking-widest text-foreground">
             {categoryName}

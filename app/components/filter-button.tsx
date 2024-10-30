@@ -16,11 +16,11 @@ export function FilterButtons({
   };
 
   return (
-    <div className="flex justify-center mb-16 space-x-12">
+    <div className="flex flex-wrap justify-center gap-4 sm:gap-8 mb-8 sm:mb-16 px-4">
       <button
         key="all"
         onClick={() => handleCategoryClick('all')}
-        className={`p-3 transition-all duration-300 text-sm uppercase tracking-wider ${
+        className={`p-2 sm:p-3 transition-all duration-300 text-xs sm:text-sm uppercase tracking-wider ${
           selectedCategory === 'all'
             ? 'text-foreground border-b border-foreground dark:text-foreground dark:border-foreground'
             : 'text-muted-foreground hover:text-foreground dark:text-muted-foreground dark:hover:text-foreground'
@@ -32,13 +32,12 @@ export function FilterButtons({
         <button
           key={value}
           onClick={() => handleCategoryClick(value)}
-          className={`p-3 transition-all duration-300 text-sm uppercase tracking-wider ${
+          className={`p-2 sm:p-3 transition-all duration-300 text-xs sm:text-sm uppercase tracking-wider ${
             selectedCategory === value
               ? 'text-foreground border-b border-foreground dark:text-foreground dark:border-foreground'
               : 'text-muted-foreground hover:text-foreground dark:text-muted-foreground dark:hover:text-foreground'
           }`}
         >
-          {/* Icon components would go here */}
           <span>{value === 'youtube' ? 'Videos' : `${value}s`}</span>
         </button>
       ))}

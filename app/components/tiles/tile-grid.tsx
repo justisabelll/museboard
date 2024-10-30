@@ -26,7 +26,7 @@ export function TileGrid({ items, dictionary }: TileGridProps) {
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 640) setColumns(2);
+      if (window.innerWidth < 480) setColumns(2);
       else if (window.innerWidth < 768) setColumns(3);
       else if (window.innerWidth < 1024) setColumns(4);
       else setColumns(5);
@@ -56,7 +56,7 @@ export function TileGrid({ items, dictionary }: TileGridProps) {
         setSelectedCategory={setSelectedCategory}
       />
       <div
-        className="grid gap-4 mb-20"
+        className="grid gap-2 sm:gap-4 mb-20"
         style={{ gridTemplateColumns: `repeat(${columns}, 1fr)` }}
       >
         <AnimatePresence>
@@ -139,8 +139,8 @@ const TileContent = ({
       );
     case 'quote':
       return (
-        <div className="flex flex-col justify-center items-center p-4 h-full text-center  ">
-          <p className="text-sm font-light text-foreground uppercase tracking-widest line-clamp-4 italic">
+        <div className="flex flex-col justify-center items-center p-2 sm:p-4 h-full text-center">
+          <p className="text-xs sm:text-sm font-light text-foreground uppercase tracking-widest line-clamp-4 italic">
             &quot;{item.content}&quot;
           </p>
         </div>
