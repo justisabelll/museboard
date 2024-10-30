@@ -16,10 +16,9 @@ export default async function SignIn() {
         >
           <Button
             variant="outline"
-            size="sm"
-            className="text-foreground border-border hover:bg-accent hover:text-accent-foreground transition-colors duration-300 uppercase tracking-widest text-xs py-1.5 sm:py-3 px-3 sm:px-6"
+            className="text-foreground border-border hover:bg-accent hover:text-accent-foreground transition-colors duration-300 uppercase tracking-widest text-xs h-10 px-4"
           >
-            Sign Out
+            <span>Sign Out</span>
           </Button>
         </Form>
       ) : (
@@ -31,9 +30,10 @@ export default async function SignIn() {
         >
           <Button
             type="submit"
-            className="bg-background text-foreground border-2 border-border hover:bg-accent hover:text-accent-foreground transition-colors duration-300 uppercase tracking-widest text-xs py-1.5 sm:py-3 px-2 sm:px-4 flex items-center"
+            className="bg-background text-foreground border border-border hover:bg-accent hover:text-accent-foreground transition-colors duration-300 uppercase tracking-widest text-xs h-10 px-4 flex items-center"
           >
-            Admin Sign In
+            <span className="hidden sm:inline">Admin Sign In</span>
+            <span className="sm:hidden">Admin</span>
           </Button>
         </Form>
       )}

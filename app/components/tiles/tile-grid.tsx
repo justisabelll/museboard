@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { TileModal } from '@/app/components/tiles/tile-modal';
 import { Icon } from '@iconify/react';
@@ -22,20 +22,6 @@ const getYouTubeVideoThumbnail = (url: string) => {
 
 export function TileGrid({ items, dictionary }: TileGridProps) {
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const [columns, setColumns] = useState(5);
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 480) setColumns(2);
-      else if (window.innerWidth < 768) setColumns(3);
-      else if (window.innerWidth < 1024) setColumns(4);
-      else setColumns(5);
-    };
-
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
   const filteredItems = items.filter(
     (item) =>
@@ -55,10 +41,7 @@ export function TileGrid({ items, dictionary }: TileGridProps) {
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}
       />
-      <div
-        className="grid gap-2 sm:gap-4 mb-20"
-        style={{ gridTemplateColumns: `repeat(${columns}, 1fr)` }}
-      >
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-4 mb-20">
         <AnimatePresence>
           {filteredItems.map((item, index) => (
             <Tile
@@ -129,13 +112,15 @@ const TileContent = ({
   switch (categoryName) {
     case 'image':
       return (
-        <Image
-          src={item.content}
-          width={300}
-          height={300}
-          alt="Inspiration"
-          className="object-cover w-full h-full transition-all duration-200 filter hover:filter-none"
-        />
+        <div className="relative w-full h-full">
+          <Image
+            src={item.content}
+            width={300}
+            height={300}
+            alt="Inspiration"
+            className="object-cover w-full h-full transition-all duration-200"
+          />
+        </div>
       );
     case 'quote':
       return (
@@ -147,18 +132,18 @@ const TileContent = ({
       );
     case 'video':
       return (
-        <div className="w-full h-full overflow-hidden group">
+        <div className="relative w-full h-full group">
           <Image
             src={getYouTubeVideoThumbnail(item.content)}
             alt="Video Thumbnail"
-            className="object-cover scale-150 w-full h-full transition-all duration-200 blur-sm group-hover:blur-none"
+            className="object-cover scale-150 blur-sm  w-full h-full transition-all duration-200"
             width={300}
             height={300}
           />
-          <div className="absolute inset-0 flex items-center justify-center bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+          <div className="absolute inset-0 bg-black/30 flex items-center justify-center group-hover:bg-black/40 transition-colors">
             <Icon
               icon="mdi:play-circle-outline"
-              className="w-16 h-16 text-white transform scale-75 group-hover:scale-100 transition-transform duration-200"
+              className="w-8 h-8 sm:w-12 sm:h-12 text-white/90 group-hover:scale-110 transition-transform"
             />
           </div>
         </div>

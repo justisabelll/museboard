@@ -50,16 +50,16 @@ export function TileModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[625px] w-[95vw] max-h-[90vh] overflow-y-auto bg-background border-border m-4">
+      <DialogContent className="sm:max-w-[625px] w-[calc(100%-2rem)] max-h-[90vh] overflow-y-auto bg-background border-border mx-4">
         <DialogHeader className="border-b border-border pb-4">
-          <DialogTitle className="text-2xl font-normal uppercase tracking-widest text-foreground">
+          <DialogTitle className="text-lg sm:text-2xl font-normal uppercase tracking-widest text-foreground">
             {categoryName}
           </DialogTitle>
-          <DialogDescription className="font-light text-sm text-muted-foreground">
+          <DialogDescription className="font-light text-xs sm:text-sm text-muted-foreground">
             Added on {new Date(item.created_at).toLocaleDateString()}
           </DialogDescription>
         </DialogHeader>
-        <div className="mt-6">
+        <div className="mt-4 sm:mt-6 max-w-full">
           <RenderContent item={item} categoryName={categoryName} />
         </div>
         {item.source && (
@@ -104,40 +104,37 @@ const RenderContent = ({
   switch (categoryName.toLowerCase()) {
     case 'image':
       return (
-        <Image
-          src={item.content}
-          alt="Inspiration"
-          className="w-full h-auto rounded-none max-h-[90vh] object-contain"
-          width={100}
-          height={100}
-          unoptimized
-        />
+        <div className="relative w-full flex items-center justify-center">
+          <Image
+            src={item.content}
+            alt="Inspiration"
+            className="w-auto h-auto max-w-full max-h-[60vh] object-contain"
+            width={800}
+            height={800}
+            unoptimized
+          />
+        </div>
       );
     case 'quote':
       return (
-        <blockquote className="text-xl font-light italic border-l-2 border-border pl-4 py-2 text-foreground">
+        <blockquote className="text-base sm:text-xl font-light italic border-l-2 border-border pl-4 py-2 text-foreground">
           {item.content}
         </blockquote>
       );
     case 'video':
       return (
-        <div className="aspect-video">
+        <div className="aspect-video w-full">
           <MediaPlayer src={item.content} crossOrigin="">
             <MediaProvider />
             <PlyrLayout
               icons={plyrLayoutIcons}
               style={{
                 '--plyr-color-main': 'hsl(var(--primary))',
-                '--plyr-video-control-color': 'hsl(var(--secondary))',
-                '--plyr-video-control-color-hover': 'hsl(var(--secondary))',
-                '--plyr-video-control-background-hover':
-                  'hsl(var(--secondary-background))',
-                '--plyr-audio-control-color': 'hsl(var(--primary))',
-                '--plyr-audio-control-color-hover': 'hsl(var(--primary))',
-                '--plyr-audio-control-background-hover':
-                  'hsl(var(--secondary))',
-                '--plyr-menu-background': 'hsl(var(--primary))',
-                '--plyr-menu-color': 'hsl(var(--primary))',
+                '--plyr-video-control-color': 'hsl(var(--foreground))',
+                '--plyr-video-control-color-hover': 'hsl(var(--primary))',
+                '--plyr-video-control-background-hover': 'hsl(var(--accent))',
+                '--plyr-menu-background': 'hsl(var(--background))',
+                '--plyr-menu-color': 'hsl(var(--foreground))',
               }}
             />
           </MediaPlayer>

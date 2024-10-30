@@ -18,13 +18,15 @@ export default async function Home() {
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
-      <header className="relative py-12 sm:py-24 mb-8 sm:mb-16">
-        <h1 className="text-4xl sm:text-7xl font-light tracking-widest text-center uppercase text-foreground px-4">
-          Muse<span className="font-normal">board</span>
-        </h1>
-        <div className="flex absolute top-4 sm:top-8 right-4 sm:right-8 gap-3 sm:gap-6 items-center">
-          <ModeToggle />
-          <SignIn />
+      <header className="py-12 sm:py-24 mb-8 sm:mb-16">
+        <div className="container mx-auto px-4 sm:px-8">
+          <div className="flex justify-end gap-4 mb-8">
+            <ModeToggle />
+            <SignIn />
+          </div>
+          <h1 className="text-4xl sm:text-7xl font-light tracking-widest text-center uppercase text-foreground">
+            Muse<span className="font-normal">board</span>
+          </h1>
         </div>
       </header>
 

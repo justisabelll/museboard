@@ -26,14 +26,14 @@ export function ModeToggle() {
   return (
     <Button
       onClick={toggleTheme}
-      className="bg-background text-foreground border border-border hover:bg-accent hover:text-accent-foreground transition-colors duration-300 uppercase tracking-widest text-xs py-1.5 sm:py-2 px-3 sm:px-4 flex items-center shadow-sm"
+      className="bg-background text-foreground border border-border hover:bg-accent hover:text-accent-foreground transition-colors duration-300 uppercase tracking-widest text-xs h-10 px-4 flex items-center shadow-sm"
     >
       {theme === 'dark' ? (
-        <SunIcon className="h-3 w-3 sm:h-4 sm:w-4 mr-1.5 sm:mr-2" />
+        <SunIcon className="h-[14px] w-[14px] mr-1.5" />
       ) : (
-        <MoonIcon className="h-3 w-3 sm:h-4 sm:w-4 mr-1.5 sm:mr-2" />
+        <MoonIcon className="h-[14px] w-[14px] mr-1.5" />
       )}
-      {theme === 'dark' ? 'Light' : 'Dark'}
+      <span>{theme === 'dark' ? 'Light' : 'Dark'}</span>
     </Button>
   );
 }
